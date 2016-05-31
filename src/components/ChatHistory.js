@@ -43,14 +43,14 @@ class ChatHistory extends React.Component {
   render() {
     const { props, onScroll } = this;
     return (
-      <ul className="collection" ref="messageList" onScroll={ onScroll }>
+      <ul className="collection message-list" ref="messageList" onScroll={ onScroll }>
         { props.history.map((messageObj) => {
           const imgURL = '//robohash.org/' + messageObj.Who + '?set=set2&bgset=bg2&size=70x70';
           const messageDate = new Date(messageObj.When);
           const messageDateTime = messageDate.toLocaleDateString() +
             ' at ' + messageDate.toLocaleTimeString();
           return (
-            <li className="collection-item avatar" key={ messageObj.When }>
+            <li className="collection-item message-item avatar" key={ messageObj.When }>
               <img src={ imgURL } alt={ messageObj.Who } className="circle" />
               <span className="title">Anonymous robot #{ messageObj.Who }</span>
               <p>

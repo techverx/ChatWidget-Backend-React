@@ -1,10 +1,17 @@
-import { ADD_MESSAGE, SET_CURRENT_USERID, ADD_HISTORY } from '../constants';
+import {
+  ADD_MESSAGE,
+  SET_CURRENT_USERID,
+  ADD_HISTORY,
+  ADD_USER,
+  REMOVE_USER,
+} from '../constants';
 import { fromJS } from 'immutable';
 
 const INITIAL_STATE = fromJS({
   userID: 0,
   messages: [],
   lastMessageTimestamp: null,
+  users: [],
 });
 
 function appReducer(state = INITIAL_STATE, action = {}) {
@@ -17,6 +24,13 @@ function appReducer(state = INITIAL_STATE, action = {}) {
     return state
       .update('messages', (messages) => messages.unshift(...action.payload.messages))
       .update('lastMessageTimestamp', () => action.payload.timestamp);
+  case ADD_USER:
+    const addedUsers = state
+      .update('users', (users) => (users.indexOf(action.payload) >= 0 ? users : users.concat(action.payload)));
+    return addedUsers;
+  case REMOVE_USER:
+    return state
+      .update('users', (users) => users.filter((userID) => userID !== action.payload));
   default:
     return state;
   }
