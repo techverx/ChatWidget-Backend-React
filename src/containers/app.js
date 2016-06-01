@@ -3,12 +3,15 @@ import { connect } from 'react-redux';
 import ChatInput from '../components/ChatInput';
 import ChatHistory from '../components/ChatHistory';
 import ChatUsers from '../components/ChatUsers';
+import ChatUsersTyping from '../components/ChatUsersTyping';
 import {
   setCurrentUserID,
   addMessage,
   addHistory,
   addUser,
   removeUser,
+  addTypingUser,
+  removeTypingUser,
 } from '../actions';
 
 function mapStateToProps(state) {
@@ -17,6 +20,7 @@ function mapStateToProps(state) {
     userID: state.app.get('userID'),
     lastMessageTimestamp: state.app.get('lastMessageTimestamp'),
     users: state.app.get('users').toJS(),
+    usersTyping: state.app.get('usersTyping').toJS(),
   };
 }
 
@@ -27,6 +31,8 @@ function mapDispatchToProps(dispatch) {
     addHistory: (messages, timestamp) => dispatch(addHistory(messages, timestamp)),
     addUser: (userID) => dispatch(addUser(userID)),
     removeUser: (userID) => dispatch(removeUser(userID)),
+    addTypingUser: (userID) => dispatch(addTypingUser(userID)),
+    removeTypingUser: (userID) => dispatch(removeTypingUser(userID)),
   };
 }
 
@@ -41,6 +47,9 @@ class App extends React.Component {
     users: React.PropTypes.array,
     addUser: React.PropTypes.func,
     removeUser: React.PropTypes.func,
+    usersTyping: React.PropTypes.array,
+    addTypingUser: React.PropTypes.func,
+    removeTypingUser: React.PropTypes.func,
   };
 
   componentDidMount() {
@@ -74,21 +83,39 @@ class App extends React.Component {
     case 'timeout':
       this.props.removeUser(presenceData.uuid);
       break;
+    case 'state-change':
+      if (presenceData.data) {
+        if (presenceData.data.isTyping === true) {
+          this.props.addTypingUser(presenceData.uuid);
+        } else {
+          this.props.removeTypingUser(presenceData.uuid);
+        }
+      }
+      break;
     default:
       break;
     }
   }
 
   render() {
-    const { props, sendMessage, fetchHistory } = this;
+    const { props, sendMessage, fetchHistory, setTypingState } = this;
     return (
       <div className="message-container">
         <ChatUsers users={ props.users } />
         <ChatHistory history={ props.history } fetchHistory={ fetchHistory } />
-        <ChatInput userID={ props.userID } sendMessage={ sendMessage } />
+        <ChatUsersTyping usersTyping={ props.usersTyping } />
+        <ChatInput userID={ props.userID } sendMessage={ sendMessage } setTypingState={ setTypingState } />
       </div>
     );
   }
+
+  setTypingState = (isTyping) => {
+    this.PubNub.state({
+      channel: 'ReactChat',
+      uuid: this.props.userID,
+      state: { isTyping },
+    });
+  };
 
   leaveChat = () => {
     this.PubNub.unsubscribe({ channel: 'ReactChat' });

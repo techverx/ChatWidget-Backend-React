@@ -4,6 +4,8 @@ import {
   ADD_HISTORY,
   ADD_USER,
   REMOVE_USER,
+  ADD_TYPING_USER,
+  REMOVE_TYPING_USER,
 } from '../constants';
 
 export function setCurrentUserID(userID) {
@@ -44,3 +46,16 @@ export function removeUser(userID) {
   };
 }
 
+export function addTypingUser(userID) {
+  return {
+    type: ADD_TYPING_USER,
+    payload: userID,
+  };
+}
+
+export function removeTypingUser(userID) {
+  return {
+    type: REMOVE_TYPING_USER,
+    payload: userID,
+  };
+}
