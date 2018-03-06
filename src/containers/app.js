@@ -5,6 +5,7 @@ import ChatHistory from '../components/ChatHistory';
 import { setCurrentUserID, addMessage } from '../actions';
 
 function mapStateToProps(state) {
+  console.log(state)
   return {
     history: state.app.get('messages').toJS(),
     userID: state.app.get('userID'),
