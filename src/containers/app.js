@@ -5,7 +5,7 @@ import ChatHistory from '../components/ChatHistory';
 import { setCurrentUserID, addMessage } from '../actions';
 
 function mapStateToProps(state) {
-  console.log(state)
+  console.log(state.app.get('messages'))
   return {
     history: state.app.get('messages').toJS(),
     userID: state.app.get('userID'),
@@ -36,7 +36,7 @@ class App extends React.Component {
       ssl: (location.protocol.toLowerCase() === 'https:'),
     });
     this.PubNub.subscribe({
-      channel: 'ReactChat',
+      channel: 'HelpChat',
       message: this.props.addMessage,
     });
   }
@@ -53,7 +53,7 @@ class App extends React.Component {
 
   sendMessage = (message) => {
     this.PubNub.publish({
-      channel: 'ReactChat',
+      channel: 'HelpChat',
       message: message,
     });
   }
