@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import ChatInput from '../components/ChatInput';
 import ChatHistory from '../components/ChatHistory';
 import { setCurrentUserID, addMessage } from '../actions';
-import PubNub from 'pubnub'; 
 
 function mapStateToProps(state) {
   return {
