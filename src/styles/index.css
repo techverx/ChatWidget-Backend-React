@@ -6,9 +6,14 @@ footer {
   position: fixed;
   padding: 0;
   bottom: 0;
+  right: 0;
   left: 0;
   width: 100%;
-  height: 100px;
+  height: 90px;
+}
+
+footer.landing{
+  height: 250px;
 }
 
 footer .input-field input,
@@ -22,8 +27,9 @@ button {
 
 /* ChatHistory styles */
 .collection {
- margin-bottom:130px;
+ margin-bottom:50px;
  margin-top: -1px;
+ border: 0;
 }
 
 .message-date {
@@ -32,4 +38,69 @@ button {
 
 body {
   background: #EEEEEE;
+}
+body .collection .collection-item.avatar{
+  min-height: 50px;
+}
+body .cont{
+  height: 100%;
+  min-height: 450px;
+}
+body .container.main{
+  margin: 0;
+  height: 100%;
+  min-height: 550px;
+  width: 100%;
+}
+.col.current, .col.convos{
+  padding: 0;
+  max-height: 550px;
+  height: 550px;
+  display: block;
+  overflow: scroll;
+  margin-top: 40px!important;
+  display: block;
+}
+.main .convos, .mian .col.current{
+  border-right: 1px solid lightgrey;
+  min-height: 550px;
+  width: 100%;
+  padding-bottom: 90px;
+  overflow: scroll;
+}
+.note{
+  height: 200px;
+}
+.note p{
+  width: 100%;
+}
+.convos .collection-item{
+  padding-left: 40px;
+}
+.collection .collection-item.avatar .circle{
+  height: 30px;
+  width: 30px;margin-left: 10px;
+}
+.main .header{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 3;
+  font-size: 14px;
+}
+.main .header h5{
+  font-size: 16px;
+  color: white;
+}
+
+.current .collection .collection-item.message{
+  height: 40px;
+  padding-left: 40px;
+  font-size: 14px;
+  border-radius: 4px;
+  padding: 2px 30px;
+  margin: 10px 30px;
+}
+.user-title{
+  font-size: 13px;
 }

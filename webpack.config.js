@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const proxy = require('./server/webpack-dev-proxy');
 const SplitByPathPlugin = require('webpack-split-by-path');
+const Dotenv = require('dotenv-webpack');
 
 function getEntrySources(sources) {
   if (process.env.NODE_ENV !== 'production') {
@@ -25,6 +26,10 @@ const basePlugins = [
     template: './src/index.html',
     inject: 'body',
   }),
+  new Dotenv({
+    // systemvars: true,
+    path: './.env',
+  }),
 ];
 
 const devPlugins = [
@@ -44,7 +49,7 @@ const prodPlugins = [
 const plugins = basePlugins
   .concat(process.env.NODE_ENV === 'production' ? prodPlugins : [])
   .concat(process.env.NODE_ENV === 'development' ? devPlugins : []);
-
+console.log(plugins)
 module.exports = {
   entry: {
     app: getEntrySources(['./src/index.js']),
@@ -64,6 +69,10 @@ module.exports = {
   devServer: {
     historyApiFallback: { index: '/' },
     proxy: proxy(),
+    port: 8180
+  },
+  node: { 
+    fs: 'empty' 
   },
 
   module: {

@@ -1,22 +1,40 @@
 import * as React from 'react';
-export default class ChatHistory extends React.Component {
-  	static propTypes = {
-		history: React.PropTypes.array,
-	};
-	render() {
-	    return (
-		    <ul className="collection">
-		      <li className="collection-item avatar">
-		        <img src="//robohash.org/107378?set=set2&bgset=bg2&size=70x70" alt="107378" className="circle" />
-		        <span className="title">Anonymous robot #107378</span>
-		        <p>
-		          <i className="prefix mdi-action-alarm" />
-		          <span className="message-date">05/19/2016 at 1:55PM</span>
-		          <br />
-		          <span>Hello World!</span>
-		        </p>
-		      </li>
-		    </ul>
-	    );
-	}
+
+class ChatHistory extends React.Component {
+  static propTypes = {
+    history: React.PropTypes.array,
+  };
+
+  humanizedDate = (message) => {
+    let messageDate = new Date(message.createdAt);
+    let messageDateTime = messageDate.toLocaleDateString() +
+            ' at ' + messageDate.toLocaleTimeString();
+  }
+
+  render() {
+    const { props } = this;
+    return (
+      <ul className="collection">
+        { props.history.map((messageObj, i) => {
+          const messageDate = new Date(messageObj.createdAt);
+          const messageDateTime = messageDate.toLocaleTimeString();
+          return (
+            <li className="item-wrapper" key={ i }>
+              <div className="collection-item avatar message">
+                <span className="user-title">{messageObj.name}</span>
+                  &nbsp;
+                  <i className="prefix mdi-action-alarm" />
+                  <span className="user-title">{messageDateTime}</span>
+                  <p>
+                    <span>{ messageObj.body }</span>
+                  </p>
+              </div>
+            </li>
+          );
+        }) }
+      </ul>
+    );
+  }
 }
+
+export default ChatHistory;

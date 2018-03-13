@@ -6,21 +6,22 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { syncHistoryWithStore, push } from 'react-router-redux';
 
 import routes from './store/routes';
 import configureStore from './store/configure-store';
-
+import { verifyCredentials } from './utils/token-auth'
 // Global styles
 import './styles/index.css';
 
 const store = configureStore({});
 const history = syncHistoryWithStore(browserHistory, store);
+verifyCredentials(store);
 
 ReactDOM.render(
   <div>
     <Provider store={ store }>
-      <Router history={ history }>
+      <Router history={ history } >
         { routes }
       </Router>
     </Provider>
