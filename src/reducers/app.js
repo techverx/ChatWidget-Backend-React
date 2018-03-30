@@ -15,14 +15,15 @@ const INITIAL_STATE = fromJS({
 });
 
 function appReducer(state = INITIAL_STATE, action = {}) {
+  
   switch (action.type) {
   case FETCHED_CONVO:
     return state.update('convos', (convos) => convos.concat(action.payload.map((c)=>{
-        return { id: c.id, name: c.username, unread: c.un_read_count, 
-          sessionID: c.session_id }
+        return { id: c.id, name: c.username, sessionID: c.session_id }
       })));
 
   case FETCHED_HISTORY:
+    console.log('Messgaes: ', action.payload);
     return state.update('messages', () => INITIAL_STATE.get('messages').concat(
       action.payload.messages.map((m)=>{
           return {
@@ -32,13 +33,23 @@ function appReducer(state = INITIAL_STATE, action = {}) {
     ));
 
   case ADD_CONVO:
-   return state.update('convos', (convos) => convos.concat(action.payload));
+   return state.update('convos', (convos) => {
+    action.payload.unread = true
+    return convos.concat(action.payload)
+   });
 
   case ADD_MESSAGE:
     return state.update('messages', (messages) => messages.concat(action.payload));
 
   case SELECT_CONVO:
-    return state.update('currentConvo', (currentConvo) => action.payload );
+    state.update('convos', (convos) => {
+      convos.forEach(function(c){ 
+        if(c.sessionID == action.payload){
+          c.unread = false; 
+        } 
+      })
+    });
+    return state.update('currentConvo', (currentConvo) => action.payload );;
 
   case UPDATE_ATTR:
     return state.update('message', (message) => Object.assign(message, action.payload) );

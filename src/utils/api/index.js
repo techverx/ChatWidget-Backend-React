@@ -21,6 +21,14 @@ function request(method, url, data = {}) {
 	});	  
 }
 
+export function logout() {
+  localStorage['access-token'] = null
+  localStorage['token-type'] = null
+  localStorage['client'] = null
+  localStorage['expiry'] = null
+  localStorage['uid'] = null
+}
+
 export function postMessage(data) {
   return request('post', BASEPATH + 'messages.json', {
   	message: data,

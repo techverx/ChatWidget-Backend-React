@@ -16,7 +16,6 @@ const config = {
     password: 'password',
   },
 }
-
 const {
   signInUser,
   signOutUser,

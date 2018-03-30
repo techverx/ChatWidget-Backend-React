@@ -6,14 +6,10 @@ class SignIn extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log(this)
     let password = this.refs.txtPassword.value,
       email = this.refs.txtEmail.value;
     let redirectToConvo = this.props.redirectToConvo;
-    this.props.signin({email, password}).then((res) => {
-      console.log(res)
-      redirectToConvo();
-    });
+    this.props.signin({email, password});
   }
 
 

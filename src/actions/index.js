@@ -1,8 +1,12 @@
 import { ADD_MESSAGE, SET_CURRENT_USERID, UPDATE_ATTR, SEND_MESSAGE, SIGN_IN, 
     FETCH_HISTORY, FETCHED_HISTORY, FETCH_CONVO, FETCHED_CONVO, ADD_CONVO,
     SELECT_CONVO } from '../constants';
-import { postMessage, fetchMessages, fetchConvos } from '../utils/api';
+import { postMessage, fetchMessages, fetchConvos, logout } from '../utils/api';
 import { signInUser } from '../utils/token-auth';
+
+export function logoutUser() {
+  logout();
+}
 
 export function setCurrentUserID(userID) {
   return {

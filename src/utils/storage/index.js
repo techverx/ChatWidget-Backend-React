@@ -1,11 +1,11 @@
 import { USERID } from '../../constants';
 
 function get(key){
-	return localStorage.getItem(key);
+	return sessionStorage.getItem(key);
 }
 
 function set(key, value){
-	localStorage.setItem(key, value);
+	sessionStorage.setItem(key, value);
 }
 
 export function sessionCheck() {

@@ -22,7 +22,7 @@ ReactDOM.render(
   <div>
     <Provider store={ store }>
       <Router history={ history } >
-        { routes }
+        { routes() }
       </Router>
     </Provider>
   </div>,
